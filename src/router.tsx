@@ -9,7 +9,7 @@ const Stack = createStackNavigator();
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name={ROUTES.VIDEOS} component={VideosScreen} />
       </Stack.Navigator>
     </NavigationContainer>

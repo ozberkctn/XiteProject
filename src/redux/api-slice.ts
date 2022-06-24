@@ -1,11 +1,12 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {VideosResponse} from '../apiTypes';
+import {Genre, Video, VideosResponse} from '../apiTypes';
 import {MAIN_URL} from '../constants';
 import {RootState} from './store';
 const axios = require('axios');
 
 interface ApiState {
-  videos?: VideosResponse[];
+  videos?: Video[];
+  genres?: Genre[];
   loading: 'idle' | 'loading' | 'succeeded' | 'failed';
   error?: string;
 }
@@ -15,11 +16,7 @@ export const apiSlide = createSlice({
   initialState: {
     loading: 'idle',
   } as ApiState,
-  reducers: {
-    saveVideos: (state: ApiState, action: any) => {
-      state.videos = [action.payload];
-    },
-  },
+  reducers: {},
   extraReducers: builder => {
     builder
       .addCase(getVideos.pending, (state: ApiState) => {
@@ -27,7 +24,8 @@ export const apiSlide = createSlice({
       })
       .addCase(getVideos.fulfilled, (state: ApiState, action) => {
         state.loading = 'succeeded';
-        state.videos = action.payload;
+        state.videos = action.payload.videos;
+        state.genres = action.payload.genres;
       })
       .addCase(getVideos.rejected, (state: ApiState, action) => {
         state.loading = 'failed';
@@ -44,9 +42,8 @@ export const getVideos = createAsyncThunk('api/videos', async () => {
   return response.data;
 });
 
-
 export const videos = (state: RootState) => state.api.videos;
+export const genres = (state: RootState) => state.api.genres;
 export const isLoading = (state: RootState) => state.api.loading;
 export const error = (state: RootState) => state.api.error;
-export const {saveVideos} = apiSlide.actions;
 export default apiSlide.reducer;
