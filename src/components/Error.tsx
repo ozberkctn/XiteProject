@@ -6,10 +6,11 @@ import XiteText from './XiteText';
 
 interface IError {
   err?: string;
+  testID?: string;
 }
 
-const Error = ({err}: IError) =>
-  err ? <CustomXiteText>{err}</CustomXiteText> : null;
+const Error = ({err, testID}: IError) =>
+  err ? <CustomXiteText testID={testID}>{err}</CustomXiteText> : null;
 
 const CustomXiteText = styled(XiteText)`
   ${material.body1Object as CSSObject}

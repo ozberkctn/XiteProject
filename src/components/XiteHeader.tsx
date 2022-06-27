@@ -6,13 +6,14 @@ import XiteTextInput from './XiteTextInput';
 
 interface IXiteHeader {
   onChangeText: (text: string) => void;
+  testID?: string;
 }
 
-const XiteHeader = ({onChangeText}: IXiteHeader) => {
+const XiteHeader = ({onChangeText, testID}: IXiteHeader) => {
   return (
-    <Container>
-      <XiteLogo source={images.logo} />
-      <SearchBar onChangeText={onChangeText} />
+    <Container testID={testID}>
+      <XiteLogo source={images.logo} testID={`${testID}-logo`} />
+      <SearchBar onChangeText={onChangeText} testID={`${testID}-search-bar`} />
     </Container>
   );
 };
