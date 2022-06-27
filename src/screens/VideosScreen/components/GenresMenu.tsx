@@ -14,6 +14,7 @@ const GenresMenu = ({genres, onGenrePress}: IGenresMenu) => {
     <Container horizontal>
       {genres?.map(item => (
         <GenreItem
+          key={item.id}
           item={item}
           onGenrePress={(state: boolean) => onGenrePress(item.id, state)}
         />

@@ -7,12 +7,14 @@ import XiteTouchableOpacity from '../../../components/XiteTouchableOpacity';
 interface IGenreItem {
   item: Genre;
   onGenrePress: (state: boolean) => void;
+  testID?: string;
 }
 
-const GenreItem = ({item, onGenrePress}: IGenreItem) => {
+const GenreItem = ({testID, item, onGenrePress}: IGenreItem) => {
   const [genreState, setGenreState] = useState(false);
   return (
     <Container
+      testID={testID}
       activeOpacity={1}
       state={genreState}
       key={item.id}

@@ -86,7 +86,7 @@ const VideosScreen = () => {
   const videoListIsNotEmpty = searchResults && !isEmpty(searchResults);
 
   return (
-    <Container>
+    <Container testID="video-list-container">
       <Error err={errorState} />
       <XiteSpinner visible={isLoadingState} />
       <AnimatedHeader style={{transform: [{translateY: translateY}]}}>
@@ -94,7 +94,11 @@ const VideosScreen = () => {
         <MemoizedGenres genres={genresData} onGenrePress={onGenrePress} />
       </AnimatedHeader>
       {videoListIsNotEmpty && (
-        <MemoizedVideoList data={searchResults} onScroll={onVideoListScroll} />
+        <MemoizedVideoList
+          data={searchResults}
+          onScroll={onVideoListScroll}
+          testID="video-list-test"
+        />
       )}
     </Container>
   );

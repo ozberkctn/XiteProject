@@ -14,6 +14,7 @@ interface IVideoList {
   onScroll?:
     | ((rawEvent: ScrollEvent, offsetX: number, offsetY: number) => void)
     | undefined;
+  testID?: string;
 }
 
 const scrollProps: ScrollViewProps = {
@@ -43,7 +44,7 @@ const renderRow = (
   return renderItem({item: data.values});
 };
 
-function VideoList({data, onScroll}: IVideoList) {
+function VideoList({data, onScroll, testID}: IVideoList) {
   const [videosProviderData, setVideosProviderData] = useState(
     getDataProviderWithData(data),
   );
@@ -63,7 +64,7 @@ function VideoList({data, onScroll}: IVideoList) {
   );
 
   return (
-    <Container>
+    <Container testID={testID}>
       <RecyclerListView
         rowRenderer={renderRow}
         dataProvider={videosProviderData}

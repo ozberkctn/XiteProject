@@ -8,12 +8,14 @@ import {CSSObject} from 'styled-components';
 
 interface IVideoItem {
   item: Video;
+  testID?: string;
 }
 
-const VideoItem = ({item}: IVideoItem) => {
+const VideoItem = ({item, testID}: IVideoItem) => {
   return (
-    <Container>
+    <Container testID={testID}>
       <VideoThumb
+        testID={`${testID}-thumb`}
         source={{uri: item.image_url}}
         resizeMode={FastImage.resizeMode.cover}
       />
