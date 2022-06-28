@@ -20,7 +20,7 @@ const VideoItem = ({item, testID}: IVideoItem) => {
         resizeMode={FastImage.resizeMode.cover}
       />
       <DescriptionContainer>
-        <VideoTitleText>{item.title}</VideoTitleText>
+        <VideoTitleText numberOfLines={2}>{item.title}</VideoTitleText>
         <Row>
           <VideoArtisText>{item.artist}</VideoArtisText>
         </Row>

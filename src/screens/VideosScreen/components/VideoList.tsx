@@ -17,7 +17,7 @@ interface IVideoList {
   testID?: string;
 }
 
-const descriptionViewHeight = 75;
+const descriptionViewHeight = 65;
 const scrollProps: ScrollViewProps = {
   keyboardShouldPersistTaps: 'never',
   bounces: false,
