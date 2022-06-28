@@ -4,9 +4,9 @@ import {RecyclerListView, DataProvider, LayoutProvider} from 'recyclerlistview';
 import {Video} from '../../../apiTypes';
 import VideoItem from './VideoItem';
 import isEqual from 'lodash/isEqual';
-import {getVideoItemDimensions, headerHeight} from '../../../constants';
+import {getVideoItemDimensions} from '../../../constants';
 import {ScrollEvent} from 'recyclerlistview/dist/reactnative/core/scrollcomponent/BaseScrollView';
-import {ScrollViewProps, StyleSheet} from 'react-native';
+import {ScrollViewProps} from 'react-native';
 
 const ListItemType = 'default item';
 interface IVideoList {
@@ -17,13 +17,12 @@ interface IVideoList {
   testID?: string;
 }
 
+const descriptionViewHeight = 75;
 const scrollProps: ScrollViewProps = {
-  keyboardShouldPersistTaps: 'always',
+  keyboardShouldPersistTaps: 'never',
   bounces: false,
   keyboardDismissMode: 'on-drag',
 };
-const descriptionViewHeight = 75;
-const genresMenuHeight = 54;
 
 const renderItem = ({item}: {item: Video}) => <VideoItem item={item} />;
 
@@ -71,7 +70,6 @@ function VideoList({data, onScroll, testID}: IVideoList) {
         layoutProvider={layoutProvider}
         scrollViewProps={scrollProps}
         onScroll={onScroll}
-        style={styles.recyclerView}
       />
     </Container>
   );
@@ -81,10 +79,6 @@ const Container = styled.View`
   flex: 1;
   background-color: black;
 `;
-
-const styles = StyleSheet.create({
-  recyclerView: {paddingTop: headerHeight + genresMenuHeight},
-});
 
 function videoPropsAreEqual(prevVideo: IVideoList, nextVideo: IVideoList) {
   return isEqual(prevVideo.data, nextVideo.data);

@@ -1,13 +1,11 @@
 import {isEmpty} from 'lodash';
 import React, {useCallback, useEffect, useState} from 'react';
-import {Animated} from 'react-native';
-import {ScrollEvent} from 'recyclerlistview/dist/reactnative/core/scrollcomponent/BaseScrollView';
 import styled from 'styled-components/native';
 import {Video} from '../../apiTypes';
 import Error from '../../components/Error';
 import XiteHeader from '../../components/XiteHeader';
 import XiteSpinner from '../../components/XiteSpinner';
-import {headerHeight} from '../../constants';
+import XiteText from '../../components/XiteText';
 import {
   error,
   genres,
@@ -28,48 +26,39 @@ const VideosScreen = () => {
   const [searchResults, setSearchResults] = useState<Video[]>();
   const [genreFilters, setGenreFilters] = useState<number[]>([]);
   const [searchKeyword, setSearchKeyword] = useState('');
-  const scrollY = new Animated.Value(0);
-  const diffClamp = Animated.diffClamp(scrollY, 0, headerHeight);
-  const translateY = diffClamp.interpolate({
-    inputRange: [0, headerHeight],
-    outputRange: [0, -headerHeight],
-  });
 
   useEffect(() => {
     dispatch(getVideos());
   }, [dispatch]);
 
-  const onVideoListScroll = (e: ScrollEvent) => {
-    scrollY.setValue(e.nativeEvent.contentOffset.y);
-  };
-
   //filter data when search text is changed or any genre item is selected or unselected
   useEffect(() => {
-    setSearchResults(
-      videosData?.filter((item: Video) => {
-        let isKeywordMatch = false;
-        let isGenreMatch = false;
-        if (searchKeyword) {
-          if (String(item.title).includes(searchKeyword)) {
-            isKeywordMatch = true;
-          }
-        } else {
+    const results = videosData?.filter((item: Video) => {
+      let isKeywordMatch = false;
+      let isGenreMatch = false;
+      if (searchKeyword) {
+        if (
+          String(item.title).toLowerCase().includes(searchKeyword.toLowerCase())
+        ) {
           isKeywordMatch = true;
         }
-        if (!isEmpty(genreFilters)) {
-          genreFilters.forEach(genre => {
-            if (genre === item.genre_id) {
-              isGenreMatch = true;
-            }
-          });
-        } else {
-          isGenreMatch = true;
-        }
-        if (isKeywordMatch && isGenreMatch) {
-          return item;
-        }
-      }),
-    );
+      } else {
+        isKeywordMatch = true;
+      }
+      if (!isEmpty(genreFilters)) {
+        genreFilters.forEach(genre => {
+          if (genre === item.genre_id) {
+            isGenreMatch = true;
+          }
+        });
+      } else {
+        isGenreMatch = true;
+      }
+      if (isKeywordMatch && isGenreMatch) {
+        return item;
+      }
+    });
+    setSearchResults(results);
   }, [searchKeyword, genreFilters, videosData]);
 
   const onGenrePress = useCallback(
@@ -89,16 +78,13 @@ const VideosScreen = () => {
     <Container testID="video-list-container">
       <Error err={errorState} />
       <XiteSpinner visible={isLoadingState} />
-      <AnimatedHeader style={{transform: [{translateY: translateY}]}}>
-        <XiteHeader onChangeText={keyword => setSearchKeyword(keyword)} />
-        <MemoizedGenres genres={genresData} onGenrePress={onGenrePress} />
-      </AnimatedHeader>
+      <XiteHeader onChangeText={keyword => setSearchKeyword(keyword)} />
+      <MemoizedGenres genres={genresData} onGenrePress={onGenrePress} />
       {videoListIsNotEmpty && (
-        <MemoizedVideoList
-          data={searchResults}
-          onScroll={onVideoListScroll}
-          testID="video-list-test"
-        />
+        <MemoizedVideoList data={searchResults} testID="video-list-test" />
+      )}
+      {!isEmpty(videosData) && !videoListIsNotEmpty && (
+        <NoDataText>No data to show</NoDataText>
       )}
     </Container>
   );
@@ -108,9 +94,6 @@ const Container = styled.View`
   flex: 1;
 `;
 
-const AnimatedHeader = styled(Animated.View)`
-  z-index: 100;
-  elevation: 4;
-`;
+const NoDataText = styled(XiteText)``;
 
 export default VideosScreen;

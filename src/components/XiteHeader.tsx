@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import {headerHeight} from '../constants';
+
 import {images} from '../images';
 import XiteTextInput from './XiteTextInput';
 
@@ -19,14 +19,10 @@ const XiteHeader = ({onChangeText, testID}: IXiteHeader) => {
 };
 
 const Container = styled.View`
+  padding-top: 10px;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: ${headerHeight}px;
   background-color: black;
   border-width: 2px;
   border-color: black;

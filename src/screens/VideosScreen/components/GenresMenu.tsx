@@ -11,23 +11,27 @@ interface IGenresMenu {
 
 const GenresMenu = ({genres, onGenrePress}: IGenresMenu) => {
   return (
-    <Container horizontal>
-      {genres?.map(item => (
-        <GenreItem
-          key={item.id}
-          item={item}
-          onGenrePress={(state: boolean) => onGenrePress(item.id, state)}
-        />
-      ))}
+    <Container>
+      <GenresList horizontal>
+        {genres?.map(item => (
+          <GenreItem
+            key={item.id}
+            item={item}
+            onGenrePress={(state: boolean) => onGenrePress(item.id, state)}
+          />
+        ))}
+      </GenresList>
     </Container>
   );
 };
 
-const Container = styled.ScrollView`
+const GenresList = styled.ScrollView`
   background-color: black;
-  position: absolute;
-  top: 64px;
   padding-vertical: 12px;
+`;
+
+const Container = styled.View`
+  height: 54px;
 `;
 
 function genresPropsAreEqual(prevGenres: IGenresMenu, nextGenres: IGenresMenu) {

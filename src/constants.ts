@@ -10,7 +10,6 @@ export const ROUTES = {
 export const screenDimension = Dimensions.get('screen');
 export const videoItemWidths = {sm: 100, md: 100, lg: 50, xl: 33};
 export const videoItemHeights = {sm: 200, md: 200, lg: 500, xl: 500};
-export const headerHeight = 64;
 
 export const getVideoItemDimensions = () => {
   return {
